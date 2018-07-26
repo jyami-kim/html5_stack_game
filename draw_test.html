@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Gamedev Canvas Workshop</title>
+    <style>
+    	* { padding: 0; margin: 0; }
+    	canvas { background: #eee; display: block; margin: 0 auto; }
+    </style>
+</head>
+<body>
+
+<canvas id="myCanvas" width="480" height="320">
+
+</canvas>
+
+<script>
+    var canvas = document.getElementById("myCanvas"); //canvas 엘리먼트 참조
+    var ctx = canvas.getContext("2d"); //2d rendering
+
+    ctx.beginPath(); // 명령어 시작
+    ctx.rect(20,40,50,50); //직사각형 정의 (좌상단 모서리 좌표, 너비 높이)
+    ctx.fillStyle = "#FF0000"; //fill() 메소드에서 칠해질 색상값 red
+    ctx.fill();
+    ctx.closePath(); // 명령어 끝
+
+    ctx.beginPath();
+    ctx.arc(240, 160, 20, 0, Math.PI*2, false) // (원의 중심 xy좌표, 원의 반지름, 시작 각도(라디안), 그리는 방향 false = 시계방향)
+    ctx.fillStyle = "green"; 
+    ctx.fill();
+    ctx.closePath();
+
+    ctx.beginPath();
+    ctx.rect(160,10,100,40) // (원의 중심 xy좌표, 원의 반지름, 시작 각도(라디안), 그리는 방향 false = 시계방향)
+    ctx.strokeStyle = "rgba(0,0,255,0.5)"; 
+    ctx.stroke();
+    ctx.closePath();
+</script>
+
+</body>
+</html>
