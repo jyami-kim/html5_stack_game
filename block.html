@@ -46,7 +46,7 @@
     document.addEventListener("keydown", keyDownHandler, false); //keydown이 되면 keyDownHandler() 함수가 실행
     document.addEventListener("keyup", keyUpHandler, false); //keyup이 되면 keyupHandler() 함수가 실행
     document.addEventListener("mousemove", mouseMoveHandler, false);
-
+//
     function mouseMoveHandler(e){
         var relaiveX = e.clientX - canvas.offsetLeft; //수평 마우스의 위치 (e.clientX)
         if(relativeX >0 && relativeX < canvs.width){
