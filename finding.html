@@ -5,39 +5,63 @@
     <meta name ="viewport" content="width=device-width">
     <title>finding_with_mj_yh</title>
     <style>
-    	* { padding: 0; margin: 0; }
-    	canvas { background: #eee; display: block; margin: 0 auto;
-            width : 100%;
+    	* { padding: 0; margin: 0;}
+        html {width: 930px; height: 1460px; background: #fff}
+    	canvas { background: #000; display: block; margin: 0 auto;
 	        height : 100%;
         }
+        body {width: 930px;background: rgb(12, 9, 58);}
         .grid-container {
             display: grid;
             grid-template-columns: auto auto auto auto;
         }
+        img
+        {
+            height: 300px;
+        }
+        table{
+            padding-left: 20px; padding-top: 10px;
+
+        }
+        
     </style>
 </head>
 
-<body onload="drawCard();">
+
+<body>
+<canvas id="myCanvas" width="930" height="208"></canvas>
     <table>
         <tr>
-            <td><img src="https://mdn.mozillademos.org/files/5399/gallery_1.jpg"></td>
-            <td><img src="https://mdn.mozillademos.org/files/5401/gallery_2.jpg"></td>
-            <td><img src="https://mdn.mozillademos.org/files/5403/gallery_3.jpg"></td>
-            <td><img src="https://mdn.mozillademos.org/files/5405/gallery_4.jpg"></td>
+            <td id="00" class="cards"><img src="img/card.png"></td>
+            <td id="01" class="cards"><img src="img/card.png"></td>
+            <td id="02" class="cards"><img src="img/card.png"></td>
+            <td id="03" class="cards"><img src="img/card.png"></td>
         </tr>
         <tr>
-            <td><img src="https://mdn.mozillademos.org/files/5407/gallery_5.jpg"></td>
-            <td><img src="https://mdn.mozillademos.org/files/5409/gallery_6.jpg"></td>
-            <td><img src="https://mdn.mozillademos.org/files/5411/gallery_7.jpg"></td>
-            <td><img src="https://mdn.mozillademos.org/files/5413/gallery_8.jpg"></td>
+            <td id="10" class="cards"><img src="img/card.png"></td>
+            <td id="11" class="cards"><img src="img/card.png"></td>
+            <td id="12" class="cards"><img src="img/card.png"></td>
+            <td id="13" class="cards"><img src="img/card.png"></td>
         </tr>
+        <tr>
+            <td id="20" class="cards"><img src="img/card.png"></td>
+            <td id="21" class="cards"><img src="img/card.png"></td>
+            <td id="22" class="cards"><img src="img/card.png"></td>
+            <td id="23" class="cards"><img src="img/card.png"></td>
+        </tr>
+        <tr>
+            <td id="30" class="cards"><img src="img/card.png"></td>
+            <td id="31" class="cards"><img src="img/card.png"></td>
+            <td id="32" class="cards"><img src="img/card.png"></td>
+            <td id="33" class="cards"><img src="img/card.png"></td>
+        </tr>    
     </table>
-    <img id="frame" src="https://mdn.mozillademos.org/files/242/Canvas_picture_frame.png" width="132" height="150">
 
-    
 
-<canvas id="myCanvas" width=1440 height=2560></canvas>
-<script type="text/javascript" src="js/action.js"></script>
-
+<!-- <script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script> -->
+  <script type="text/javascript" src="js/action.js"></script>
 </body>
 </html>
