@@ -1,6 +1,3 @@
-var canvas = document.getElementById("myCanvas"); //canvas 엘리먼트 참조
-var ctx = canvas.getContext("2d"); //2d rendering
-
 
 //상수설정
 const rowCard = 4;
@@ -19,14 +16,13 @@ class Game{
         this.image_group = [];
     }
 
-
     init(){
         //previousClick init
         this.previousClick = {check: false, myCard: null};
 
         //image_group init
-        for(var i=0; i<=8; i++){
-            this.image_group[i] = "img/"+i+".png";   
+        for(var i=0; i<=58; i++){
+            this.image_group[i] = "img/"+i+".png";
         }
         //cards init
         for(var r=0; r<rowCard; r++){
@@ -120,15 +116,15 @@ class Game{
         }
 
     }
-    // show(){
-    //     setTimeout(function(){ 
-    //         for(var r=0; r<rowCard; r++){
-    //             for(var c=0; c<columnCard; c++){
-    //                 card_num = r*4+c;
-    //                 document.getElementsByTagName("img")[card_num].src=cards[r][c].image;}
-    //             }
-    //         }, 3000);
-    // }
+    show(){
+
+        for(var r=0; r<rowCard; r++){
+            for(var c=0; c<columnCard; c++){
+                card_num = r*4+c;
+                document.getElementsByTagName("img")[card_num].src=cards[r][c].image;
+            }
+        }
+    }
 }
 
 var game = new Game();
