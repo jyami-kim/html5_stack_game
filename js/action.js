@@ -199,7 +199,6 @@ function cardClick(obj,card_id){
 }
 
 function cardCheck(obj,r,c){
-    console.log(cardCheck);
     var preClick = obj.previousClick;
     clickNum++;
     if(preClick.check == false){
@@ -241,9 +240,8 @@ function newStage(obj){
 
 //card 뒤집는 event
 var x = document.getElementsByClassName("cards");
-var a = [];
 for(var i=0; i<x.length;i++){
-    x[i].addEventListener("click", function(e){
+    x[i].addEventListener("touchstart", function(e){
         cardClick(game,e.path[1].id);
     }, false); //click하면 다음 실행
 }
