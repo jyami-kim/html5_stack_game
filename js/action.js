@@ -8,6 +8,11 @@ var openpair = 4;
 var stage = 1;
 var level = 1;
 
+var myTimer;
+
+//첫번째 클릭 확인
+var clickEve = false;
+
 class Game{
     constructor(){
         this.previousClick;
@@ -17,13 +22,17 @@ class Game{
     }
 
     init(){
+        console.log("init 시작");
         //previousClick init
         this.previousClick = {check: false, myCard: null};
 
+        console.log("imagegroup 시작");
         //image_group init
         for(var i=0; i<=58; i++){
             this.image_group[i] = "img/"+i+".png";
         }
+        
+        console.log("cards init 시작");
         //cards init
         for(var r=0; r<rowCard; r++){
             this.cards[r] = [];
@@ -31,20 +40,18 @@ class Game{
                 this.cards[r][c] = {id: r*10+c ,status: 0, pair: [], image: null};
             }
         }
+        
+        console.log("pairgroup init 시작");
         //pairgroup init
         for(var i = 0 ; i<openpair ; i++){
             this.pairGroup[i] = {image: null, pair: []};
         }
-        //image reset
-        for(var r = 0; r<rowCard; r++){
-            for(var c =0 ; c<columnCard; c++){
-                var id = r*4+c;
-                document.getElementsByTagName("img")[id].src="img/default.png";
-            }
-        }
+        console.log("init 끝");
+        this.randpair();
     }
 
     randpair(){
+        console.log("randpair 시작");
         function pairGroupImageSame(obj,img){
             for(var i =0; i<openpair; i++){
                 if(obj[i].image != img){
@@ -114,33 +121,44 @@ class Game{
                 i++
             }
         }
+        console.log("randpair 끝");
+        
+        this.show();
+    } 
 
-    }
     show(){
-
+        console.log("show 시작");
         for(var r=0; r<rowCard; r++){
             for(var c=0; c<columnCard; c++){
-                card_num = r*4+c;
-                document.getElementsByTagName("img")[card_num].src=cards[r][c].image;
+                var card_num = r*4+c;
+                var showcard =this.cards[r][c].image;
+                if(showcard == null){
+                    document.getElementsByTagName("img")[card_num].src = "img/default.png";
+                }else{
+                    document.getElementsByTagName("img")[card_num].src=showcard;
+                }
             }
         }
+        
+        console.log("show 끝"); 
+        myTimer = setTimeout(this.imagereset, 5000);
+    }
+
+    imagereset(){
+        console.log("imagereset 시작")
+        // image reset
+        for(var r = 0; r<rowCard; r++){
+            for(var c =0 ; c<columnCard; c++){
+                var id = r*4+c;
+                document.getElementsByTagName("img")[id].src="img/default.png";
+            }
+        }
+        console.log("imagereset 끝");
     }
 }
 
 var game = new Game();
 newStage(game);
-
-
-//난수 함수
-
-
-
-//메소드
-
-
-
-
-//카드 무작위 선택
 
 
 //배열안 요소 찾는 함수
@@ -156,6 +174,15 @@ function findArray(find, array){
 //카드 쌍 무작위 선택 + 카드 쌍 저장
 
 function cardClick(obj,card_id){
+    if(!clickEve){
+        clearTimeout(myTimer);
+        obj.imagereset();
+        clickEve = true;
+        stop();
+    }
+    
+    // reset();
+    
     var card_row = parseInt(card_id/10);
     var card_col = card_id % 10;
     var card_num = card_row*4+card_col;
@@ -197,18 +224,17 @@ function cardCheck(obj,r,c){
 
 function newStage(obj){
     console.log("newStage");
-    
+    reset();
+    start();
     obj.init();
-    obj.randpair();
-
+    // obj.randpair();
+    clickEve = false;
     for(var i = 0; i<4;i++){
         console.log(obj.cards[i]);
     }
     for(var i =0; i<openpair; i++){
         console.log(obj.pairGroup[i]);
     }
-
-    // obj.show();
 }
 
 //게임 객체 생성
@@ -216,15 +242,18 @@ function newStage(obj){
 
 //card 뒤집는 event
 var x = document.getElementsByClassName("cards");
+var a = [];
 for(var i=0; i<x.length;i++){
     x[i].addEventListener("click", function(e){
         cardClick(game,e.path[1].id);
     }, false); //click하면 다음 실행
 }
 
-// function check(){
-    
-// }
+// setInterval(function(){
+//     console.log(myTimer);
+// }, 10); //함수를 몇번이고 반복해서 실행할 수 있다. 10밀리초마다 실행
 
-// setInterval(check, 10); //함수를 몇번이고 반복해서 실행할 수 있다. 10밀리초마다 실행
+// function check(){
+
+// }
 

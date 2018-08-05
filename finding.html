@@ -62,70 +62,70 @@
   src="https://code.jquery.com/jquery-3.3.1.min.js"
   integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
   crossorigin="anonymous"></script> -->
-  <script>
-      var now;
-      var ctx = document.getElementById("myCanvas").getContext("2d"); //2d rendering
+    <script>
+        var now;
+        var ctx = document.getElementById("myCanvas").getContext("2d"); //2d rendering
 
-var timer;
-var i = 0;
-var divide = 100;
-var until = 5; 
-var total = 5;
+        var timer;
+        var i = 0;
+        var divide = 100;
+        var until = 5; 
+        var total = 5;
 
-function clear() {
-     ctx.clearRect(0, 0, 80, 80);
-    }
+        function start(){
+        timer = self.setInterval(increment, (1000 / divide));
+        }
 
-function setTrack() {
-    ctx.strokeStyle = '#d6ff00';
-    ctx.lineWidth = 4;
-    ctx.beginPath();
-    ctx.arc(894, 172, 27, 0, Math.PI*2);
-    ctx.stroke();
-}
+        function clear() {
+            ctx.clearRect(0, 0, 80, 80);
+            }
 
-function setTime() {
-    ctx.strokeStyle = '#6E828E';
-    ctx.lineWidth = 8;
-    ctx.beginPath();
-    ctx.arc(
-        894,
-        172,
-        27,
-        Math.PI/-2,
-        ( Math.PI * 2 ) * ( ( until - now % total ) / total ) + ( Math.PI / -2 ),
-        false
-    );
-    ctx.stroke();
-}
+        function setTrack() {
+            ctx.strokeStyle = '#d6ff00';
+            ctx.lineWidth = 4;
+            ctx.beginPath();
+            ctx.arc(894, 172, 27, 0, Math.PI*2);
+            ctx.stroke();
+        }
+
+        function setTime() {
+            ctx.strokeStyle = '#6E828E';
+            ctx.lineWidth = 8;
+            ctx.beginPath();
+            ctx.arc(
+                894,
+                172,
+                27,
+                Math.PI/-2,
+                ( Math.PI * 2 ) * ( ( until - now % total ) / total ) + ( Math.PI / -2 ),
+                false
+            );
+            ctx.stroke();
+        }
+        function increment(){
+            // ( i / divide )??
+            clear();
+            setTrack();
+            setTime();
+            i++;
+            now = (i / divide);
+            if(now > 5){
+                stop();
+            }
+        }
+
+        function stop(){
+            clearInterval(timer);
+            now = null;
+        }
+
+        function reset(){
+            stop();
+            i = 0
+        }
 
 
-function increment(){
-    // ( i / divide )??
-    clear();
-    setTrack();
-    setTime();
-    i++;
-    now = (i / divide);
-    if(now > 5){
-        stop();
-    }
-}
-
-function stop(){
-    clearInterval(now);
-    now = null;
-}
-
-function reset(){
-    stop();
-    i = 0
-}
-
-setInterval(increment, (1000/divide));
-
-  </script>
-  <script type="text/javascript" src="js/action.js"></script>
-  <!-- <script type ="text/javascript" src="js/timer.js"></script> -->
+    </script>
+    <script type="text/javascript" src="js/action.js"></script>
 </body>
 </html>
