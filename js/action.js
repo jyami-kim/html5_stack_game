@@ -8,10 +8,12 @@ var openpair = 4;
 var stage = 1;
 var level = 1;
 
-var myTimer;
+var myTimer = 0;
 
 //첫번째 클릭 확인
 var clickEve = false;
+
+var clickNum;
 
 class Game{
     constructor(){
@@ -114,6 +116,7 @@ class Game{
                 card1.pair.push(this.pairGroup[putting].pair);
                 card2.pair.push(this.pairGroup[putting].pair);  
 
+                
                 //image 있음 상태 status
                 card1.status = 1;
                 card2.status = 1;
@@ -180,9 +183,6 @@ function cardClick(obj,card_id){
         clickEve = true;
         stop();
     }
-    
-    // reset();
-    
     var card_row = parseInt(card_id/10);
     var card_col = card_id % 10;
     var card_num = card_row*4+card_col;
@@ -199,24 +199,22 @@ function cardClick(obj,card_id){
 }
 
 function cardCheck(obj,r,c){
-    console.log("이미지 로드");
+    console.log(cardCheck);
     var preClick = obj.previousClick;
+    clickNum++;
     if(preClick.check == false){
         preClick.check = true;
         preClick.myCard = obj.cards[r][c];
-        console.log("짝0");
-        console.log(preClick);
     }else{
         var previousClickId = obj.cards[r][c].id;
-        console.log("array = " +  preClick.myCard.pair);
-        console.log("find = " + previousClickId);
         if(findArray(previousClickId, preClick.myCard.pair[0])){ // 같은 pair일 경우
-            console.log("짝1");
             obj.previousClick.check = false;
             obj.previousClick.myCard = null;
             console.log(preClick);
+            if(clickNum == openpair*2){
+                newStage(obj);
+            }
         }else{
-            console.log("짝 틀림")
             newStage(obj);
         }
     }
@@ -224,6 +222,7 @@ function cardCheck(obj,r,c){
 
 function newStage(obj){
     console.log("newStage");
+    clickNum = 0;
     reset();
     start();
     obj.init();
