@@ -15,14 +15,18 @@ function randomNum(num){
 }
 
 //card 뒤집는 event
-var x = document.getElementsByClassName("cards");
-for(var i=0; i<x.length;i++){
-    x[i].addEventListener("touchstart", function(e){
-        cardClick(game,e.path[1].id);
-    }, false); //click하면 다음 실행
-}
+document.addEventListener('DOMContentLoaded', function() {
+    var x = document.getElementsByClassName("cards");
+    for(var i=0; i<x.length;i++){
+        x[i].addEventListener("touchstart", function(e){
+            cardClick(game,e.path[1].id);
+        }, false); //click하면 다음 실행
+    }
+ });
+
 
 var ctx = document.getElementById("myCanvas").getContext("2d"); //2d rendering
+
 
 //타이머
 class Time{
@@ -33,8 +37,6 @@ class Time{
         var until = 5; 
         var total = 5;
     }
-    
-  
     start(){
         console.log("start");
         this.timer = self.setInterval(this.increment, (1000 / 100));
@@ -101,6 +103,7 @@ class Level{
         var openpair; // 열리는 카드쌍 개수   (pairNum <= openpair)
         var stage; //newstage마다 갱신
         var level; //stage 10 마다 level 1up > 이미지 카드 배열 종류 변화
+        var score;
         //level 1up 마다 pairnum max++
         //level 2up 마다 image_group 변화 > 같은 이미지 배치
     }
@@ -109,11 +112,13 @@ class Level{
         this.pairNumMin = 1;
         this.stage = 1;
         this.level = 1;
+        this.score = 0;
     }
     stagestart(){//스테이지
         var x = randomNum(this.pairNumMax)+1;
         this.pairNum = x;
         this.openpair = randomNum(8)+1;
+        this.score += 100*this.level; //stage clear 추가점수
     }
 }
 
@@ -312,11 +317,13 @@ function cardCheck(obj,r,c){
     if(preClick.check == false){
         preClick.check = true;
         preClick.myCard = obj.cards[r][c];
+        gameLevel.score += gameLevel.level*5;
     }else{
         var previousClickId = obj.cards[r][c].id;
         if(findArray(previousClickId, preClick.myCard.pair[0])){ // 같은 pair일 경우
             obj.previousClick.check = false;
             obj.previousClick.myCard = null;
+            gameLevel.score += gameLevel.level*5;
             console.log(preClick);
             if(clickNum == gameLevel.openpair*2){
                 newStage(obj,gameTimer,gameLevel);
@@ -349,9 +356,9 @@ function newStage(game, gameTimer, gameLevel){
 
 
 
-// setInterval(function(){
-//     console.log(a);
-// }, 10); //함수를 몇번이고 반복해서 실행할 수 있다. 10밀리초마다 실행
+setInterval(function(){
+    console.log(gameLevel.score);
+}, 10); //함수를 몇번이고 반복해서 실행할 수 있다. 10밀리초마다 실행
 
 // function check(){
 
