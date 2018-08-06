@@ -172,7 +172,6 @@ class Game{
         }
 
         
-        var array = this.image_group.splice();
         var left = gameLevel.openpair;
         var cardId = [];
         for(var r = 0; r<4; r++){
@@ -303,7 +302,8 @@ function cardClick(obj,card_id){
         document.getElementsByTagName("img")[card_num].src=clickCard.image;
         cardCheck(card_row, card_col);
     }else{ // 카드 없음 상태
-        top.location.href = 'end.html';
+        endStage();
+        // top.location.href = 'end.html';
     }
 }
 
@@ -342,7 +342,8 @@ function cardCheck(r,c){
             }
         }else{
             console.log("stage 탈락");
-            top.location.href = 'end.html';
+            endStage();
+            // top.location.href = 'end.html';
         }
     }
     console.log(preClick);
@@ -350,7 +351,14 @@ function cardCheck(r,c){
     console.log(gameLevel.openpair);
 }
 
+function endStage(){
+    console.log(gameLevel.score);
+    document.getElementById("output").style.display = 'block';
+    document.getElementById("score").innerHTML = gameLevel.score;
+}
+
 function newStage(){
+    document.getElementById("output").style.display = 'none';
     console.log("newStage");
     clickNum = 0;
     gameTimer.reset();
