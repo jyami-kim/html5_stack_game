@@ -14,6 +14,14 @@ function randomNum(num){
     return Math.floor(Math.random()*num);
 }
 
+//card 뒤집는 event
+var x = document.getElementsByClassName("cards");
+for(var i=0; i<x.length;i++){
+    x[i].addEventListener("touchstart", function(e){
+        cardClick(game,e.path[1].id);
+    }, false); //click하면 다음 실행
+}
+
 var ctx = document.getElementById("myCanvas").getContext("2d"); //2d rendering
 
 //타이머
@@ -39,19 +47,19 @@ class Time{
         
         function setTrack() {
             ctx.strokeStyle = '#d6ff00';
-            ctx.lineWidth = 4;
+            ctx.lineWidth = 12;
             ctx.beginPath();
-            ctx.arc(894, 172, 27, 0, Math.PI*2);
+            ctx.arc(880, 160, 40, 0, Math.PI*2);
             ctx.stroke();
         }
         function setTime() {
             ctx.strokeStyle = '#6E828E';
-            ctx.lineWidth = 8;
+            ctx.lineWidth = 18;
             ctx.beginPath();
             ctx.arc(
-                894,
-                172,
-                27,
+                880,
+                160,
+                40,
                 Math.PI/-2,
                 ( Math.PI * 2 ) * ( ( gameTimer.until - gameTimer.now % gameTimer.total ) / gameTimer.total ) + ( Math.PI / -2 ),
                 false
@@ -338,13 +346,7 @@ function newStage(game, gameTimer, gameLevel){
 //게임 객체 생성
 
 
-//card 뒤집는 event
-var x = document.getElementsByClassName("cards");
-for(var i=0; i<x.length;i++){
-    x[i].addEventListener("touchstart", function(e){
-        cardClick(game,e.path[1].id);
-    }, false); //click하면 다음 실행
-}
+
 
 
 // setInterval(function(){
