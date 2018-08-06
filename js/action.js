@@ -15,22 +15,19 @@ function randomNum(num){
 }
 
 //card 뒤집는 event
-document.addEventListener('DOMContentLoaded', function() {
-    var x = document.getElementsByClassName("cards");
-    for(var i=0; i<x.length;i++){
-        x[i].addEventListener("touchstart", function(e){
-            cardClick(game,e.path[1].id);
-        }, false); //click하면 다음 실행
-    }
- });
 
+var el = document.getElementById("table");
+el.addEventListener("touchstart", function(e){
+    console.log(e.path[1].id);
+    cardClick(game,e.path[1].id);
+}, false);
 
 var ctx = document.getElementById("myCanvas").getContext("2d"); //2d rendering
 
 
 //타이머
 class Time{
-    constructor(){
+    constructor(){ 
         var now =0; 
         var timer;
         var i = 0;
@@ -38,15 +35,10 @@ class Time{
         var total = 5;
     }
     start(){
-        console.log("start");
         this.timer = self.setInterval(this.increment, (1000 / 100));
     }
     
     increment(){
-        function clear() {
-            ctx.clearRect(0, 0, 80, 80);
-        }
-        
         function setTrack() {
             ctx.strokeStyle = '#d6ff00';
             ctx.lineWidth = 12;
@@ -68,7 +60,6 @@ class Time{
             );
             ctx.stroke();
         }
-        clear();
         setTrack();
         setTime();
         gameTimer.i += 1 ;
@@ -80,13 +71,10 @@ class Time{
     }
 
     stop(){
-        console.log("stop");
         clearInterval(this.timer);
         this.now = null;
     }
-
     reset(){
-        console.log("reset");
         this.stop();
         this.i = 0;
         this.total = 5;
@@ -98,8 +86,8 @@ class Time{
 //변하는 것! (게임 난이도 조정)
 class Level{
     constructor(){
-        var pairNumMax; //같은 이미지 개수 max //
-        var pairsNum; // 같은 이미지 개수
+        var pairNumMax; //같은 이미지 배열 개수 max //
+        var pairsNum; // 같은 이미지 배열 개수
         var openpair; // 열리는 카드쌍 개수   (pairNum <= openpair)
         var stage; //newstage마다 갱신
         var level; //stage 10 마다 level 1up > 이미지 카드 배열 종류 변화
@@ -109,7 +97,6 @@ class Level{
     }
     init(){ // 게임 시작할 때
         this.pairNumMax = 3;
-        this.pairNumMin = 1;
         this.stage = 1;
         this.level = 1;
         this.score = 0;
@@ -119,10 +106,26 @@ class Level{
         this.pairNum = x;
         this.openpair = randomNum(8)+1;
         this.score += 100*this.level; //stage clear 추가점수
+        if(this.stage%10 == 0){
+            this.level +=1;
+            if(this.level %2 == 1){
+                this.pairNumMax +=1;
+            } 
+        }
+        this.start();
+    }
+    start(){
+        self.setInterval(this.scoreup, 10);
+    }
+    scoreup(){
+        var scr = gameLevel.score
+        
+        ctx.clearRect(70, 80, 500, 100);
+        ctx.font="50px Arial";
+        ctx.fillStyle = "#ffffff";
+        ctx.fillText(scr,100,165);
     }
 }
-
-
 
 class Game{
     constructor(){
@@ -132,107 +135,99 @@ class Game{
         this.image_group = [];
     }
 
-    init(obj){
-        console.log("init 시작");
+    init(){
         //previousClick init
         this.previousClick = {check: false, myCard: null};
 
-        console.log("imagegroup 시작");
         //image_group init
-        for(var i=0; i<=58; i++){
-            this.image_group[i] = "img/"+i+".png";
+        var folder = parseInt((gameLevel.level+1)/2);
+        for(var i=0; i<14; i++){
+            this.image_group[i] = "img/"+folder+"/"+i+".png";
         }
-        
-        console.log("cards init 시작");
+
         //cards init
         for(var r=0; r<rowCard; r++){
             this.cards[r] = [];
             for(var c=0; c<columnCard; c++){
-                this.cards[r][c] = {id: r*10+c ,status: 0, pair: [], image: null};
+                this.cards[r][c] = {id: r*10+c ,status: 0, image: null};
             }
         }
-        
-        console.log("pairgroup init 시작");
         //pairgroup init
-        for(var i = 0 ; i<obj.openpair ; i++){
+        for(var i = 0 ; i<gameLevel.pairNum ; i++){
             this.pairGroup[i] = {image: null, pair: []};
         }
-        console.log("init 끝");
-        this.randpair(obj);
+
+        this.randpair();
     }
 
-    randpair(obj){
-        console.log("randpair 시작");
-        function pairGroupImageSame(obj,img, level){
-            for(var i =0; i<level.openpair; i++){
-                if(obj[i].image != img){
-                    continue;
-                }
-                return [true, i];
+    randpair(){
+
+        
+        function shuffle(a) {
+            for (let i = a.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [a[i], a[j]] = [a[j], a[i]];
             }
-            return [false, 0];
+            return a;
         }
 
-        function pairGroupNext(obj, level){
-            for(var i =0 ; i<level.openpair; i++){
-                if(obj[i].image ==null){
-                    return i;
-                }
+        
+        var array = this.image_group.splice();
+        var left = gameLevel.openpair;
+        var cardId = [];
+        for(var r = 0; r<4; r++){
+            for(var c=0; c<4; c++){
+                cardId[r*4+c] = r*10+c;
             }
-            return 0
         }
 
-
-
-        function randomCard(obj){
-            var card_r = randomNum(4);
-            var card_c = randomNum(4);
-            var randcard = obj[card_r][card_c];
-            return randcard;
-        }
+        //image random
 
         var i = 0;
-        while(i < obj.openpair){ // 4개 쌍이 정해질 때 까지 반복
-        var card1 = randomCard(this.cards);
-        do{
-            var card2 = randomCard(this.cards);
-            }while(card1.id == card2.id);
+        var array = this.image_group.slice();
 
-            //card1과 card2가 다른 값이 나올때까지 반복한다.
+        while(i < gameLevel.pairNum){ 
+            var randIndex = randomNum(array.length)
+            var randValue = array[randIndex];
+            array.splice(randIndex, 1);
 
-            //card1과 card2 image가 둘다 null 일때 다음 함수를 실행한다.
-            if(card1.image == null && card1.image == null){
-                var newImage = this.image_group[randomNum(this.image_group.length)];
-
-                var check = pairGroupImageSame(this.pairGroup,newImage, gameLevel);
-
-                if(check[0]){ //같은이미지가 있다
-                    var putting = check[1];
-                }else{//같은 이미지가 없다
-                    var putting = pairGroupNext(this.pairGroup, gameLevel);
-                }
-
-                //pair 쌍 이미지 생성, 링크 연결
-                this.pairGroup[putting].image = newImage;
-                card1.image = this.pairGroup[putting].image;
-                card2.image = this.pairGroup[putting].image;
-
-                //pair 쌍 배열에 push, 링크 연결
-                this.pairGroup[putting].pair.push(card1.id);
-                this.pairGroup[putting].pair.push(card2.id);
-                card1.pair.push(this.pairGroup[putting].pair);
-                card2.pair.push(this.pairGroup[putting].pair);  
-
-                
-                //image 있음 상태 status
-                card1.status = 1;
-                card2.status = 1;
-
-                i++
-            }
+            this.pairGroup[i].image = randValue;
+            i++
         }
-        console.log("randpair 끝");
         
+        cardId = shuffle(cardId); //배열 랜덤
+
+        function register(obj,index){
+            // console.log(cardId);
+            var pop = cardId.pop();
+            // console.log(pop);
+            // console.log(left);
+            // console.log(gameLevel.openpair);
+            var r = parseInt(pop/10);
+            var c = pop%10;
+            
+            obj.pairGroup[index].pair.push(pop);
+            obj.cards[r][c].status =1;
+            obj.cards[r][c].image = obj.pairGroup[index].image;
+        }
+        
+        for(var i=0; i<gameLevel.pairNum;i++){
+            if(left ==0){
+                break;
+            }
+            register(this,i);
+            register(this,i);
+            left -= 1;
+        }        
+        while(left !== 0){
+            var index = randomNum(gameLevel.pairNum);
+            register(this,index);
+            register(this,index);
+            left -= 1;
+        }
+
+        console.log("randpair 끝");
+
         this.show();
     } 
 
@@ -268,13 +263,12 @@ class Game{
 }
 
 
-
 var game = new Game();
 var gameTimer = new Time();
 var gameLevel = new Level();
 
 gameLevel.init();
-newStage(game,gameTimer,gameLevel);
+newStage();
 
 
 //배열안 요소 찾는 함수
@@ -291,10 +285,12 @@ function findArray(find, array){
 
 function cardClick(obj,card_id){
     if(!clickEve){
+        var timeLeft = parseInt(gameTimer.until -gameTimer.now);
         clearTimeout(myTimer);
         obj.imagereset();
         clickEve = true;
         gameTimer.stop();
+        gameLevel.score += timeLeft;
     }
     var card_row = parseInt(card_id/10);
     var card_col = card_id % 10;
@@ -305,62 +301,69 @@ function cardClick(obj,card_id){
     console.log(clickCard);
     if(clickCard.status == 1){ //카드 있음 상태
         document.getElementsByTagName("img")[card_num].src=clickCard.image;
-        cardCheck(obj,card_row, card_col);
+        cardCheck(card_row, card_col);
     }else{ // 카드 없음 상태
-        newStage(obj,gameTimer,gameLevel);
+        top.location.href = 'end.html';
     }
 }
 
-function cardCheck(obj,r,c){
-    var preClick = obj.previousClick;
-    clickNum++;
-    if(preClick.check == false){
-        preClick.check = true;
-        preClick.myCard = obj.cards[r][c];
-        gameLevel.score += gameLevel.level*5;
-    }else{
-        var previousClickId = obj.cards[r][c].id;
-        if(findArray(previousClickId, preClick.myCard.pair[0])){ // 같은 pair일 경우
-            obj.previousClick.check = false;
-            obj.previousClick.myCard = null;
-            gameLevel.score += gameLevel.level*5;
-            console.log(preClick);
-            if(clickNum == gameLevel.openpair*2){
-                newStage(obj,gameTimer,gameLevel);
-            }
-        }else{
-            newStage(obj,gameTimer,gameLevel);
+function checkobj(chimg, pgroup){
+    for(var i=0; i<pgroup.length; i++){
+        if(pgroup[i].image == chimg){
+            return i;
         }
     }
 }
 
-function newStage(game, gameTimer, gameLevel){
+function cardCheck(r,c){
+    var preClick = game.previousClick;
+    clickNum++;
+
+    if(preClick.check == false){ // 첫번째 짝
+        console.log("첫번째 짝")
+        preClick.check = true;
+        console.log(game.cards[r][c].id);
+        preClick.myCard = game.cards[r][c].id;
+        gameLevel.score += gameLevel.level*5;
+    }else{
+        var groupi = checkobj(game.cards[r][c].image,game.pairGroup);
+        console.log(game.previousClick.myCard);
+        
+        var previousClickId = game.previousClick.myCard;
+        var check = findArray(previousClickId, game.pairGroup[groupi].pair);
+        if(check){ // 같은 pair일 경우
+            console.log("두번째 짝");
+            game.previousClick.check = false;
+            game.previousClick.myCard = null;
+            gameLevel.score += gameLevel.level*5;
+            if(clickNum == gameLevel.openpair*2){
+                console.log("stage 클리어");
+                newStage();
+            }
+        }else{
+            console.log("stage 탈락");
+            top.location.href = 'end.html';
+        }
+    }
+    console.log(preClick);
+    console.log(clickNum);
+    console.log(gameLevel.openpair);
+}
+
+function newStage(){
     console.log("newStage");
     clickNum = 0;
     gameTimer.reset();
     gameLevel.stagestart();
-    game.init(gameLevel);
-    // obj.randpair();
+
+    game.init();
     clickEve = false;
+    console.log(gameLevel);
     for(var i = 0; i<4;i++){
         console.log(game.cards[i]);
     }
-    for(var i =0; i<gameLevel.openpair; i++){
+    for(var i =0; i<gameLevel.pairNum; i++){
         console.log(game.pairGroup[i]);
     }
 }
-
-//게임 객체 생성
-
-
-
-
-
-setInterval(function(){
-    console.log(gameLevel.score);
-}, 10); //함수를 몇번이고 반복해서 실행할 수 있다. 10밀리초마다 실행
-
-// function check(){
-
-// }
 
