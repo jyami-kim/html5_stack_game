@@ -1,3 +1,4 @@
+
 //상수설정
 const rowCard = 4;
 const columnCard = 4;
@@ -23,7 +24,9 @@ el.addEventListener("touchstart", function(e){
 }, false);
 
 var ctx = document.getElementById("myCanvas").getContext("2d"); //2d rendering
-
+function hello(){
+    console.log("testhello");
+}
 
 //타이머
 class Time{
