@@ -31,7 +31,7 @@ class Time{
         var now =0; 
         var timer;
         var i = 0;
-        var until = 5; 
+        var until = 2;
         var total = 5;
     }
     start(){
@@ -62,7 +62,7 @@ class Time{
         }
         setTrack();
         setTime();
-        gameTimer.i += 1 ;
+        gameTimer.i += 2 ;
 
         gameTimer.now = (gameTimer.i /100);
         if(gameTimer.now > 5){
@@ -245,7 +245,7 @@ class Game{
         }
         
         console.log("show 끝"); 
-        myTimer = setTimeout(this.imagereset, 5000);
+        myTimer = setTimeout(this.imagereset, 3000);
     }
 
     imagereset(){
@@ -281,6 +281,7 @@ function findArray(find, array){
 }
 
 //카드 쌍 무작위 선택 + 카드 쌍 저장
+var alreadys= [];
 
 function cardClick(obj,card_id){
     if(!clickEve){
@@ -289,8 +290,12 @@ function cardClick(obj,card_id){
         obj.imagereset();
         clickEve = true;
         gameTimer.stop();
-        gameLevel.score += timeLeft;
+        if(!timeLeft == 5){
+            gameLevel.score += timeLeft;
+        }
     }
+    var checking = (alreadys.includes(parseInt(card_id)));
+    alreadys.push(parseInt(card_id));
     var card_row = parseInt(card_id/10);
     var card_col = card_id % 10;
     var card_num = card_row*4+card_col;
@@ -298,13 +303,14 @@ function cardClick(obj,card_id){
     clickCard.id = parseInt(card_id);
     console.log("cardClick");
     console.log(clickCard);
-    if(clickCard.status == 1){ //카드 있음 상태
+    if(clickCard.status == 1 && !checking){ //카드 있음 상태
         document.getElementsByTagName("img")[card_num].src=clickCard.image;
         cardCheck(card_row, card_col);
     }else{ // 카드 없음 상태
         endStage();
         // top.location.href = 'end.html';
     }
+    
 }
 
 function checkobj(chimg, pgroup){
@@ -366,6 +372,7 @@ function newStage(){
 
     game.init();
     clickEve = false;
+    alreadys = [];
     console.log(gameLevel);
     for(var i = 0; i<4;i++){
         console.log(game.cards[i]);
@@ -374,4 +381,11 @@ function newStage(){
         console.log(game.pairGroup[i]);
     }
 }
+
+// setInterval(test,10);
+
+// function test(){
+//     console.log(parseInt(gameTimer.until -gameTimer.now));
+// }
+
 

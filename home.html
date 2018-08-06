@@ -72,18 +72,21 @@
             margin: 160px;
             font-weight: bold;
         }
+        #audio-example{
+            display: none;
+        }
     </style>
 </head>
 
 
 <body>
-
+<audio autoplay loop id="audio-example">
+    <source src="audio/shark.mp3" type="audio/mpeg">
+</audio>
 <canvas id="myCanvas" width="930" height="208"></canvas>
 <div id = "output">
     <div class ="ending"><p id="score"></p></div>    
-    <form action="home.html" style="text-align: center;">
-        <input class= "snip1535" type="submit" value="try again" />
-    </form>
+    <form style="text-align: center;"><input class= "snip1535" type="button" value="try agin" onClick="window.location.reload()"></form>
 </div>
 <table id="table">
     <tr>
@@ -111,10 +114,6 @@
         <td id="33" ><img src="img/default.png"></td>
     </tr>
 </table>
-
-
-
-
-    <script type="text/javascript" src="js/action.js"></script>
+<script type="text/javascript" src="js/action.js"></script>
 </body>
 </html>
