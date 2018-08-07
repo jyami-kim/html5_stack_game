@@ -108,14 +108,10 @@ class Level{
     }
     scoreup(){
         var scr = gameLevel.score;
-        var stg = gameLevel.stage;
-        var lev = gameLevel.level;
         ctx.clearRect(70, 80, 500, 100);
         ctx.font="50px Arial";
         ctx.fillStyle = "#ffffff";
         ctx.fillText(scr,100,165);
-        ctx.fillText(stg,500,100);
-        ctx.fillText(lev,500,200)
     }
 }
 
