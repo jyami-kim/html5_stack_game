@@ -87,9 +87,6 @@
 <audio autoplay loop class="audio-example">
     <source src="audio/shark.mp3" type="audio/mpeg">
 </audio>
-<audio class="audio-example" id ="tictok">
-    <source id ="tictok" src="audio/Pop.mp3" type="audio/mpeg">
-</audio>
 
 <canvas id="myCanvas" width="930" height="208"></canvas>
 <div id = "output">
@@ -98,43 +95,30 @@
 </div>
 <table id="table">
     <tr>
-        <td><img id ="00" src ="img/default.png" onclick="javascript:cardClick(this.id),aud_play()"></td>
-        <td><img id ="01" src ="img/default.png" onclick="javascript:cardClick(this.id),aud_play()"></td>
-        <td><img id ="02" src ="img/default.png" onclick="javascript:cardClick(this.id),aud_play()"></td>
-        <td><img id ="03" src ="img/default.png" onclick="javascript:cardClick(this.id),aud_play()"></td>
+        <td><img id ="00" src ="img/default.png" onclick="javascript:cardClick(this.id)"></td>
+        <td><img id ="01" src ="img/default.png" onclick="javascript:cardClick(this.id)"></td>
+        <td><img id ="02" src ="img/default.png" onclick="javascript:cardClick(this.id)"></td>
+        <td><img id ="03" src ="img/default.png" onclick="javascript:cardClick(this.id)"></td>
     </tr>
     <tr>
-        <td><img id ="10" src ="img/default.png" onclick="javascript:cardClick(this.id),aud_play()"></td>
-        <td><img id ="11" src ="img/default.png" onclick="javascript:cardClick(this.id),aud_play()"></td>
-        <td><img id ="12" src ="img/default.png" onclick="javascript:cardClick(this.id),aud_play()"></td>
-        <td><img id ="13" src ="img/default.png" onclick="javascript:cardClick(this.id),aud_play()"></td>
+        <td><img id ="10" src ="img/default.png" onclick="javascript:cardClick(this.id)"></td>
+        <td><img id ="11" src ="img/default.png" onclick="javascript:cardClick(this.id)"></td>
+        <td><img id ="12" src ="img/default.png" onclick="javascript:cardClick(this.id)"></td>
+        <td><img id ="13" src ="img/default.png" onclick="javascript:cardClick(this.id)"></td>
     </tr>
     <tr>
-        <td><img id ="20" src ="img/default.png" onclick="javascript:cardClick(this.id),aud_play()"></td>
-        <td><img id ="21" src ="img/default.png" onclick="javascript:cardClick(this.id),aud_play()"></td>
-        <td><img id ="22" src ="img/default.png" onclick="javascript:cardClick(this.id),aud_play()"></td>
-        <td><img id ="23" src ="img/default.png" onclick="javascript:cardClick(this.id),aud_play()"></td>
+        <td><img id ="20" src ="img/default.png" onclick="javascript:cardClick(this.id)"></td>
+        <td><img id ="21" src ="img/default.png" onclick="javascript:cardClick(this.id)"></td>
+        <td><img id ="22" src ="img/default.png" onclick="javascript:cardClick(this.id)"></td>
+        <td><img id ="23" src ="img/default.png" onclick="javascript:cardClick(this.id)"></td>
     </tr>
     <tr>
-        <td><img id ="30" src ="img/default.png" onclick="javascript:cardClick(this.id),aud_play()"></td>
-        <td><img id ="31" src ="img/default.png" onclick="javascript:cardClick(this.id),aud_play()"></td>
-        <td><img id ="32" src ="img/default.png" onclick="javascript:cardClick(this.id),aud_play()"></td>
-        <td><img id ="33" src ="img/default.png" onclick="javascript:cardClick(this.id),aud_play()"></td>
+        <td><img id ="30" src ="img/default.png" onclick="javascript:cardClick(this.id)"></td>
+        <td><img id ="31" src ="img/default.png" onclick="javascript:cardClick(this.id)"></td>
+        <td><img id ="32" src ="img/default.png" onclick="javascript:cardClick(this.id)"></td>
+        <td><img id ="33" src ="img/default.png" onclick="javascript:cardClick(this.id)"></td>
     </tr>
 </table>
-<script>
-    function aud_play() { 
-        var myAudio = document.getElementById("tictok"); 
-        console.log(myAudio);
-        if (myAudio.play) 
-        {   
-            myAudio.removeAttribute("src");
-            myAudio.setAttribute("src","audio/Pop.mp3");
-        }
-        myAudio.play();
-        
-    }
-</script>
 
 <script type="text/javascript" src="js/action.js"></script>
 </body>

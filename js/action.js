@@ -19,7 +19,7 @@ class Time{
         var now =0; 
         var timer;
         var i = 0;
-        var until = 2;
+        var until = 3;
         var total = 5;
     }
     start(){
@@ -98,7 +98,9 @@ class Level{
         if(this.stage%10 == 0){
             this.level +=1;
             if(this.level %2 == 1){
-                this.pairNumMax +=1;
+                if(this.pairNumMax !==8){
+                    this.pairNumMax +=1;
+                }
             } 
         }
         this.start();
@@ -108,10 +110,12 @@ class Level{
     }
     scoreup(){
         var scr = gameLevel.score;
+        var stg = gameLevel.stage;
         ctx.clearRect(70, 80, 500, 100);
         ctx.font="50px Arial";
         ctx.fillStyle = "#ffffff";
         ctx.fillText(scr,100,165);
+        ctx.fillText("/"+stg,430,165);
     }
 }
 
@@ -129,11 +133,15 @@ class Game{
 
         //image_group init
         var folder = parseInt((gameLevel.level+1)/2);
+        if(folder>5){
+            folder =5;
+        }
         for(var i=0; i<14; i++){
             this.image_group[i] = "img/"+folder+"/"+i+".png";
         }
-        console.log(folder);
-        console.log(this.image_group);
+        // console.log(gameLevel.level);
+        // console.log(folder);
+        // console.log(this.image_group);
 
         //cards init
         for(var r=0; r<4; r++){
@@ -215,13 +223,13 @@ class Game{
             left -= 1;
         }
 
-        console.log("randpair 끝");
+        // console.log("randpair 끝");
 
         this.show();
     } 
 
     show(){
-        console.log("show 시작");
+        // console.log("show 시작");
         for(var r=0; r<4; r++){
             for(var c=0; c<4; c++){
                 var card_num = r*4+c;
@@ -234,12 +242,12 @@ class Game{
             }
         }
         
-        console.log("show 끝"); 
+        // console.log("show 끝"); 
         myTimer = setTimeout(this.imagereset, 3000);
     }
 
     imagereset(){
-        console.log("imagereset 시작")
+        // console.log("imagereset 시작")
         // image reset
         for(var r = 0; r<4; r++){
             for(var c =0 ; c<4; c++){
@@ -247,7 +255,7 @@ class Game{
                 document.getElementsByTagName("img")[id].src="img/default.png";
             }
         }
-        console.log("imagereset 끝");
+        // console.log("imagereset 끝");
     }
 }
 
@@ -274,16 +282,16 @@ function findArray(find, array){
 var alreadys= [];
 
 function cardClick(card_id){
-    console.log(clickEve)
+    // console.log(clickEve)
     if(!clickEve){
         var timeLeft = parseInt(gameTimer.until -gameTimer.now);
         clearTimeout(myTimer);
         game.imagereset();
         clickEve = true;
         gameTimer.stop();
-        console.log(timeLeft);
+        // console.log(timeLeft);
         if(timeLeft !== 5){
-            gameLevel.score += timeLeft;
+            gameLevel.score += timeLeft*2;
         }
     }
     var checking = (alreadys.includes(parseInt(card_id)));
@@ -293,8 +301,8 @@ function cardClick(card_id){
     var card_num = card_row*4+card_col;
     var clickCard = game.cards[card_row][card_col];
     clickCard.id = parseInt(card_id);
-    console.log("cardClick");
-    console.log(clickCard);
+    // console.log("cardClick");
+    // console.log(clickCard);
     if(clickCard.status == 1 && !checking){ //카드 있음 상태
         document.getElementsByTagName("img")[card_num].src=clickCard.image;
         cardCheck(card_row, card_col);
@@ -316,14 +324,14 @@ function cardCheck(r,c){
     clickNum++;
 
     if(preClick.check == false){ // 첫번째 짝
-        console.log("첫번째 짝")
+        // console.log("첫번째 짝")
         preClick.check = true;
-        console.log(game.cards[r][c].id);
+        // console.log(game.cards[r][c].id);
         preClick.myCard = game.cards[r][c].id;
         gameLevel.score += gameLevel.level*5;
     }else{
         var groupi = checkobj(game.cards[r][c].image,game.pairGroup);
-        console.log(game.previousClick.myCard);
+        // console.log(game.previousClick.myCard);
         
         var previousClickId = game.previousClick.myCard;
         var check = findArray(previousClickId, game.pairGroup[groupi].pair);
@@ -333,13 +341,13 @@ function cardCheck(r,c){
             game.previousClick.myCard = null;
             gameLevel.score += gameLevel.level*5;
             if(clickNum == gameLevel.openpair*2){
-                console.log("stage 클리어");
+                // console.log("stage 클리어");
                 game.imagereset();
                  setTimeout(newStage, 500);
                 // newStage();
             }
         }else{
-            console.log("stage 탈락");
+            // console.log("stage 탈락");
             endStage();
         }
     }
@@ -349,14 +357,14 @@ function cardCheck(r,c){
 }
 
 function endStage(){
-    console.log(gameLevel.score);
+    // console.log(gameLevel.score);
     document.getElementById("output").style.display = 'block';
     document.getElementById("score").innerHTML = gameLevel.score;
 }
 
 function newStage(){
     document.getElementById("output").style.display = 'none';
-    console.log("newStage");
+    // console.log("newStage");
     clickNum = 0;
     gameTimer.reset();
     gameLevel.stagestart();
