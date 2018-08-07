@@ -1,9 +1,4 @@
-
-//상수설정
-const rowCard = 4;
-const columnCard = 4;
-
-var myTimer = 0;
+var myTimer;
 
 //첫번째 클릭 확인
 var clickEve = false;
@@ -15,13 +10,6 @@ function randomNum(num){
     return Math.floor(Math.random()*num);
 }
 
-//card 뒤집는 event
-
-// var el = document.getElementById("table");
-// el.addEventListener("touchstart", function(e){
-//     console.log(e.path[1].id);
-//     cardClick(game,e.path[1].id);
-// }, false);
 
 var ctx = document.getElementById("myCanvas").getContext("2d"); //2d rendering
 
@@ -97,7 +85,7 @@ class Level{
     }
     init(){ // 게임 시작할 때
         this.pairNumMax = 3;
-        this.stage = 1;
+        this.stage = 0;
         this.level = 1;
         this.score = 0;
     }
@@ -106,6 +94,7 @@ class Level{
         this.pairNum = x;
         this.openpair = randomNum(8)+1;
         this.score += 100*this.level; //stage clear 추가점수
+        this.stage+=1;
         if(this.stage%10 == 0){
             this.level +=1;
             if(this.level %2 == 1){
@@ -118,12 +107,15 @@ class Level{
         self.setInterval(this.scoreup, 10);
     }
     scoreup(){
-        var scr = gameLevel.score
-        
+        var scr = gameLevel.score;
+        var stg = gameLevel.stage;
+        var lev = gameLevel.level;
         ctx.clearRect(70, 80, 500, 100);
         ctx.font="50px Arial";
         ctx.fillStyle = "#ffffff";
         ctx.fillText(scr,100,165);
+        ctx.fillText(stg,500,100);
+        ctx.fillText(lev,500,200)
     }
 }
 
@@ -144,11 +136,13 @@ class Game{
         for(var i=0; i<14; i++){
             this.image_group[i] = "img/"+folder+"/"+i+".png";
         }
+        console.log(folder);
+        console.log(this.image_group);
 
         //cards init
-        for(var r=0; r<rowCard; r++){
+        for(var r=0; r<4; r++){
             this.cards[r] = [];
-            for(var c=0; c<columnCard; c++){
+            for(var c=0; c<4; c++){
                 this.cards[r][c] = {id: r*10+c ,status: 0, image: null};
             }
         }
@@ -232,8 +226,8 @@ class Game{
 
     show(){
         console.log("show 시작");
-        for(var r=0; r<rowCard; r++){
-            for(var c=0; c<columnCard; c++){
+        for(var r=0; r<4; r++){
+            for(var c=0; c<4; c++){
                 var card_num = r*4+c;
                 var showcard =this.cards[r][c].image;
                 if(showcard == null){
@@ -251,8 +245,8 @@ class Game{
     imagereset(){
         console.log("imagereset 시작")
         // image reset
-        for(var r = 0; r<rowCard; r++){
-            for(var c =0 ; c<columnCard; c++){
+        for(var r = 0; r<4; r++){
+            for(var c =0 ; c<4; c++){
                 var id = r*4+c;
                 document.getElementsByTagName("img")[id].src="img/default.png";
             }
@@ -284,13 +278,15 @@ function findArray(find, array){
 var alreadys= [];
 
 function cardClick(card_id){
+    console.log(clickEve)
     if(!clickEve){
         var timeLeft = parseInt(gameTimer.until -gameTimer.now);
         clearTimeout(myTimer);
         game.imagereset();
         clickEve = true;
         gameTimer.stop();
-        if(!timeLeft == 5){
+        console.log(timeLeft);
+        if(timeLeft !== 5){
             gameLevel.score += timeLeft;
         }
     }
@@ -308,9 +304,7 @@ function cardClick(card_id){
         cardCheck(card_row, card_col);
     }else{ // 카드 없음 상태
         endStage();
-        // top.location.href = 'end.html';
     }
-    
 }
 
 function checkobj(chimg, pgroup){
@@ -344,17 +338,18 @@ function cardCheck(r,c){
             gameLevel.score += gameLevel.level*5;
             if(clickNum == gameLevel.openpair*2){
                 console.log("stage 클리어");
-                newStage();
+                game.imagereset();
+                 setTimeout(newStage, 500);
+                // newStage();
             }
         }else{
             console.log("stage 탈락");
             endStage();
-            // top.location.href = 'end.html';
         }
     }
-    console.log(preClick);
-    console.log(clickNum);
-    console.log(gameLevel.openpair);
+    // console.log(preClick);
+    // console.log(clickNum);
+    // console.log(gameLevel.openpair);
 }
 
 function endStage(){
@@ -369,7 +364,6 @@ function newStage(){
     clickNum = 0;
     gameTimer.reset();
     gameLevel.stagestart();
-
     game.init();
     clickEve = false;
     alreadys = [];

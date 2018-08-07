@@ -2,16 +2,15 @@
 <html>
 <head>
     <meta charset="utf-8" />
+    
     <meta name ="viewport" content="width=device-width,initial-scale=0.4, user-scalable=no">
-    <!-- user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width"  -->
-
     <title>finding_with_mj_yh</title>
     <style>
     	* { padding: 0; margin: 0;}
-        html {width: 930px; height: 1460px; background: #fff}
+        html {width: 930px; height: 100%; background: #fff; overflow:hidden}
     	canvas {  display: block; margin: 0 auto;
             z-index: 1;
-	        height : 100%;
+	        width:100%;
             background-image:url('img/canvas.png');
             background-size:100%;
             background-position:center;
@@ -19,7 +18,10 @@
         body {width: 930px;
             background-image:url('img/full.png');
             background-size:100%;
-            background-position:center;}
+            background-position:center;
+            overflow: hidden;
+            
+        }
         .grid-container {
             display: grid;
             grid-template-columns: auto auto auto auto;
@@ -36,6 +38,7 @@
             z-index: 1;
         }
 
+       
         .snip1535 {
             background-color: #c47135;
             border: none;
@@ -51,7 +54,7 @@
             position: absolute;
             text-transform: uppercase;
             font-weight: 700;
-            left: 276px;
+            left: 330px;
             top: 850px;
             z-index: 2;
         }
@@ -73,7 +76,7 @@
             margin: 160px;
             font-weight: bold;
         }
-        #audio-example{
+        .audio-example{
             display: none;
         }
     </style>
@@ -81,46 +84,58 @@
 
 
 <body>
-<audio autoplay loop id="audio-example">
+<audio autoplay loop class="audio-example">
     <source src="audio/shark.mp3" type="audio/mpeg">
 </audio>
+<audio class="audio-example" id ="tictok">
+    <source id ="tictok" src="audio/Pop.mp3" type="audio/mpeg">
+</audio>
+
 <canvas id="myCanvas" width="930" height="208"></canvas>
 <div id = "output">
     <div class ="ending"><p id="score"></p></div>    
-    <formstyle="text-align: center;"><input class= "snip1535" type="button" value="try agin" onClick="window.location.reload()"></form>
-    <form action="home.html" style="text-align: center;">
-        <input class= "snip1535" type="submit" value="try again" />
-    </form>
+     <a style = "text-decoration:none" href = "home.html" class= "snip1535">start</a>
 </div>
 <table id="table">
-        <tr>
-            <td><img id ="00" src ="img/default.png" onclick="javascript:cardClick(this.id)"></td>
-            <td><img id ="01" src ="img/default.png" onclick="javascript:cardClick(this.id)"></td>
-            <td><img id ="02" src ="img/default.png" onclick="javascript:cardClick(this.id)"></td>
-            <td><img id ="03" src ="img/default.png" onclick="javascript:cardClick(this.id)"></td>
-        </tr>
-        <tr>
-            <td><img id ="10" src ="img/default.png" onclick="javascript:cardClick(this.id)"></td>
-            <td><img id ="11" src ="img/default.png" onclick="javascript:cardClick(this.id)"></td>
-            <td><img id ="12" src ="img/default.png" onclick="javascript:cardClick(this.id)"></td>
-            <td><img id ="13" src ="img/default.png" onclick="javascript:cardClick(this.id)"></td>
-        </tr>
-        <tr>
-            <td><img id ="20" src ="img/default.png" onclick="javascript:cardClick(this.id)"></td>
-            <td><img id ="21" src ="img/default.png" onclick="javascript:cardClick(this.id)"></td>
-            <td><img id ="22" src ="img/default.png" onclick="javascript:cardClick(this.id)"></td>
-            <td><img id ="23" src ="img/default.png" onclick="javascript:cardClick(this.id)"></td>
-        </tr>
-        <tr>
-            <td><img id ="30" src ="img/default.png" onclick="javascript:cardClick(this.id)"></td>
-            <td><img id ="31" src ="img/default.png" onclick="javascript:cardClick(this.id)"></td>
-            <td><img id ="32" src ="img/default.png" onclick="javascript:cardClick(this.id)"></td>
-            <td><img id ="33" src ="img/default.png" onclick="javascript:cardClick(this.id)"></td>
-        </tr>
-    </table>
-    <script type="text/javascript">
-    </script>
-    
-    <script type="text/javascript" src="js/action.js"></script>
-    </body>
-    </html>
+    <tr>
+        <td><img id ="00" src ="img/default.png" onclick="javascript:cardClick(this.id),aud_play()"></td>
+        <td><img id ="01" src ="img/default.png" onclick="javascript:cardClick(this.id),aud_play()"></td>
+        <td><img id ="02" src ="img/default.png" onclick="javascript:cardClick(this.id),aud_play()"></td>
+        <td><img id ="03" src ="img/default.png" onclick="javascript:cardClick(this.id),aud_play()"></td>
+    </tr>
+    <tr>
+        <td><img id ="10" src ="img/default.png" onclick="javascript:cardClick(this.id),aud_play()"></td>
+        <td><img id ="11" src ="img/default.png" onclick="javascript:cardClick(this.id),aud_play()"></td>
+        <td><img id ="12" src ="img/default.png" onclick="javascript:cardClick(this.id),aud_play()"></td>
+        <td><img id ="13" src ="img/default.png" onclick="javascript:cardClick(this.id),aud_play()"></td>
+    </tr>
+    <tr>
+        <td><img id ="20" src ="img/default.png" onclick="javascript:cardClick(this.id),aud_play()"></td>
+        <td><img id ="21" src ="img/default.png" onclick="javascript:cardClick(this.id),aud_play()"></td>
+        <td><img id ="22" src ="img/default.png" onclick="javascript:cardClick(this.id),aud_play()"></td>
+        <td><img id ="23" src ="img/default.png" onclick="javascript:cardClick(this.id),aud_play()"></td>
+    </tr>
+    <tr>
+        <td><img id ="30" src ="img/default.png" onclick="javascript:cardClick(this.id),aud_play()"></td>
+        <td><img id ="31" src ="img/default.png" onclick="javascript:cardClick(this.id),aud_play()"></td>
+        <td><img id ="32" src ="img/default.png" onclick="javascript:cardClick(this.id),aud_play()"></td>
+        <td><img id ="33" src ="img/default.png" onclick="javascript:cardClick(this.id),aud_play()"></td>
+    </tr>
+</table>
+<script>
+    function aud_play() { 
+        var myAudio = document.getElementById("tictok"); 
+        console.log(myAudio);
+        if (myAudio.play) 
+        {   
+            myAudio.removeAttribute("src");
+            myAudio.setAttribute("src","audio/Pop.mp3");
+        }
+        myAudio.play();
+        
+    }
+</script>
+
+<script type="text/javascript" src="js/action.js"></script>
+</body>
+</html>
