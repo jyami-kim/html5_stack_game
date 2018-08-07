@@ -17,16 +17,13 @@ function randomNum(num){
 
 //card 뒤집는 event
 
-var el = document.getElementById("table");
-el.addEventListener("touchstart", function(e){
-    console.log(e.path[1].id);
-    cardClick(game,e.path[1].id);
-}, false);
+// var el = document.getElementById("table");
+// el.addEventListener("touchstart", function(e){
+//     console.log(e.path[1].id);
+//     cardClick(game,e.path[1].id);
+// }, false);
 
 var ctx = document.getElementById("myCanvas").getContext("2d"); //2d rendering
-function hello(){
-    console.log("testhello");
-}
 
 //타이머
 class Time{
@@ -286,11 +283,11 @@ function findArray(find, array){
 //카드 쌍 무작위 선택 + 카드 쌍 저장
 var alreadys= [];
 
-function cardClick(obj,card_id){
+function cardClick(card_id){
     if(!clickEve){
         var timeLeft = parseInt(gameTimer.until -gameTimer.now);
         clearTimeout(myTimer);
-        obj.imagereset();
+        game.imagereset();
         clickEve = true;
         gameTimer.stop();
         if(!timeLeft == 5){
@@ -302,7 +299,7 @@ function cardClick(obj,card_id){
     var card_row = parseInt(card_id/10);
     var card_col = card_id % 10;
     var card_num = card_row*4+card_col;
-    var clickCard = obj.cards[card_row][card_col];
+    var clickCard = game.cards[card_row][card_col];
     clickCard.id = parseInt(card_id);
     console.log("cardClick");
     console.log(clickCard);
