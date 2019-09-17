@@ -1,6 +1,8 @@
 # html5_stack_game
 html5 기반 스낵게임 제작
 
+https://kakao-mjifinding.herokuapp.com/home.html
+
 > main_file 
 > + finding.html
 > + js/action.js
